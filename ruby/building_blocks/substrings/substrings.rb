@@ -3,14 +3,15 @@ dictionary = ["below","down","go","going","horn","how","howdy","it","i","low","o
 
 def substrings(word, dictionary)
 	$result = {}
-
-	dictionary.each do |x|
-		if (word.include? x)
-			$result[x] = 1
+	more = word.downcase.split(" ")
+	more.each do |y|
+		dictionary.each do |x|
+			if (y.include? x)
+				$result[x] = $result[x].to_i + 1
+			end
 		end
 	end
-
 	puts $result
 end
 
-substrings("below", dictionary)
+substrings("Howdy partner, sit down! How's it going?", dictionary)
