@@ -1,12 +1,15 @@
 
 module Enumerable
     
+    # Basic iterating through an array. Self represents the array. i represents the index number of current element of the array.
+    # Elegantly cheking if block is given. If not, the block does not run, just self returns.
+    # Yield represents the passed in block.
     def my_each
         i = 0
 
-        while i < self.length                          # Basic iterating through an array. Self represents the array. i represents the index number of current element of the array.
-        	yield(self[i]) if block_given?             # Elegantly cheking if block is given. If not, the block does not run, just self returns.
-        	i += 1                                     # Yield represents the passed in block.
+        while i < self.length                          
+        	yield(self[i]) if block_given?             
+        	i += 1                                     
         end
         self
     end
