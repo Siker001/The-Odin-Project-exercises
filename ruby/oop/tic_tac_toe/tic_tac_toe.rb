@@ -16,6 +16,8 @@ class Game < Board
 		play
 	end
 
+	private
+
 	@@user1 = {name: "", pick: "", won: false}
 	@@user2 = {name: "", pick: "", won: false}
 
@@ -140,7 +142,6 @@ class Game < Board
 			@@user2[:pick] = "X"
 		end
 		show
-		puts "#{@@user1[:pick]}"
 		while (@winner != true) && (@turns <= 5)
 			puts "It is your turn #{@@user1[:name]}."
 			update_board(@@user1[:pick])
