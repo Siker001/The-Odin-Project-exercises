@@ -25,6 +25,7 @@ class Game < Board
 		puts "This is a basic tic-tac-toe game. You'll have a board, 2 users can play. "
 	end
 
+# => Prints the board on the screen.
 	def show
 		@@board.each do |y|
 			y.each { |x| print x.to_s }
@@ -32,6 +33,7 @@ class Game < Board
 		end
 	end
 
+# => Every user interaction is going through here.
 	def interact
 		gets.chomp 
 	end
@@ -45,6 +47,7 @@ class Game < Board
 		answ
 	end
 
+# => User can choose the character to be with.
 	def pick
 		answ = nil
 		while (answ != "X") && (answ != "O")
@@ -54,6 +57,8 @@ class Game < Board
 		answ
 	end
 
+# => Checks the board if that place where user wants to put the next tick is empty or not.
+# => Until runs when condition is false. It is useful to get the right number from user.
 	def update_board(character)
 		runner = false
 		while runner == false
@@ -79,6 +84,7 @@ class Game < Board
 	end
 
 # This needs plenty of refactoring.
+# => The goal is to check if one of the user reached the winning combination or not.
 	def win
 		win_o = 0
 		win_x = 0
@@ -131,6 +137,7 @@ class Game < Board
 		end
 	end
 
+# => Ties every method together. Greet user, assigns username and pick, puts board on screen, starts loop with the rounds, gives final message if there is a winner.
 	def play
 		intro
 		@@user1[:name] = name("User 1")
