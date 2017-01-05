@@ -1,18 +1,4 @@
-=begin
-class Display
-
-	attr_accessor :board, :current_guess, :missed_letters, :turns
-
-	def initialize
-		@board = []
-		@current_guess
-		@missed_letters
-		@turns
-	end
-
-end
-
-=end
+require "json"
 
 
 class Game 
@@ -21,7 +7,6 @@ class Game
 
 	def initialize
 		@board = []
-		@current_guess = ""
 		@missed_letters = []
 		@turns = 1
 		@secret_word = get_secret_word
@@ -96,11 +81,25 @@ class Game
 		end
 	end
 
+	def save
+
+		@board
+		@missed_letters
+		@turns
+		@secret_word
+		@winner
+	end
+
 	def play
 		intro
 		while @turns < 16 && !@winner
 			puts "This is your #{@turns}. guess."
-			guess
+			puts "You have an option to save your current progress. Just write save into the consol."
+			if interact == "save"
+#				save
+			else
+				guess
+			end
 			display
 			win
 			@turns += 1
