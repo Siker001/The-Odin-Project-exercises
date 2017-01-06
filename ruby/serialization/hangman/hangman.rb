@@ -14,6 +14,7 @@ class Game
 
 	private
 
+# Randomly chooses a secret word from the provided text file.
 	def get_secret_word
 		words = []
 		File.readlines('5desk.txt').join.split.each do |item|
@@ -33,6 +34,7 @@ class Game
 		puts "Type in 'open' to open one of your previously saved games."
 	end
 
+# Displays @board and @missed_letters into console.
 	def display
 		print "Find out the following word: #{@board.join}"
 		puts ""
@@ -40,10 +42,13 @@ class Game
 		puts ""
 	end
 
+# Gets user input.
 	def interact
 		gets.chomp.downcase
 	end
 
+# Asks for a guess, checks if that input is following standards.
+# Iterate through secret word's letters and checks if the user answ is among it or not.
 	def guess
 		answ = ""
 		used = true
@@ -67,6 +72,7 @@ class Game
 		end
 	end
 
+# When all characters of @board are a..z, changes @winner to true so the play loop stops.
 	def win
 		if @board.all? { |e| ("a".."z").include?(e) }
 			@winner = true
@@ -81,6 +87,9 @@ class Game
 		end
 	end
 
+# Asks for a name to save the game.
+# Create a hash form of instance variables to work with.
+# Creates a json file with writing this previously created hash file into it with converting that to_json.
 	def save
 		puts "Type in a name to save your changes."
 		name = interact
@@ -97,10 +106,14 @@ class Game
 		puts "Your game was saved under the name of '#{name}'. Bye"
 	end
 
+# Lists all files in save folder. Then asks for a name to open it.
+# Opens json file(read), then parsing it. Now you have a hash.
+# Re-assign all instance variables with the matching variables in the parsed json file's value. 
+# We have only 1 value each, so with [0] gets an easy access to it in the correct class format.
 	def open_saved
 		print Dir["./save/*"]
 		puts ""
-		puts "Type in the name of the file you would like to open. Only the part in fron to '.json'."
+		puts "Type in the name of the file you would like to open. Only the part in front of '.json'."
 		opening = interact
 		file = File.read("./save/#{opening}.json")
 		parsed = JSON.parse(file)
@@ -111,6 +124,11 @@ class Game
 		@winner	= parsed.values_at("@winner")[0]
 	end
 
+# The whole game runs here.
+# Asks if open a saved file, if not it continues.
+# While it's under 16 turns and there is no winner, the loop will run.
+# At each turn it asks for save, if gets save, save method runs. Else just asks for guess.
+# Displays the board and the missed letters, checks for win and increses turns. Finally puts farewell respectively.
 	def play
 		intro
 		if interact == "open"
@@ -130,7 +148,6 @@ class Game
 			win
 			@turns += 1
 		end
-		puts @winner
 		farewell
 	end
 	
