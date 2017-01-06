@@ -1,9 +1,7 @@
-require "json"
+require 'json'
 
 
 class Game 
-	
-	#attr_accessor :secret_word
 
 	def initialize
 		@board = []
@@ -31,6 +29,8 @@ class Game
 	def intro
 		puts "Welcome to the game of Hangman. Your goal is to figure out the word what we've thought about."
 		puts "You can guess by typing in 1 letter. You win if you find out the word within 15 rounds."
+		puts "You have the option to start a new game or to open one of your saved games."
+		puts "Type in 'open' to open one of your previously saved games."
 	end
 
 	def display
@@ -82,21 +82,47 @@ class Game
 	end
 
 	def save
+		puts "Type in a name to save your changes."
+		name = interact
+		save_this = {
+			"@board" => @board,
+			"@missed_letters" => @missed_letters,
+			"@turns" => @turns,
+			"@secret_word" => @secret_word,
+			"@winner" => @winner
+		}
+		File.open("./save/#{name}.json", "w") do |f|
+			f.write(save_this.to_json)
+		end
+		puts "Your game was saved under the name of '#{name}'. Bye"
+	end
 
-		@board
-		@missed_letters
-		@turns
-		@secret_word
-		@winner
+	def open_saved
+		print Dir["./save/*"]
+		puts ""
+		puts "Type in the name of the file you would like to open. Only the part in fron to '.json'."
+		opening = interact
+		file = File.read("./save/#{opening}.json")
+		parsed = JSON.parse(file)
+		@board = parsed.values_at("@board")[0]
+		@missed_letters	= parsed.values_at("@missed_letters")[0]
+		@turns = parsed.values_at("@turns")[0]
+		@secret_word = parsed.values_at("@secret_word")[0]
+		@winner	= parsed.values_at("@winner")[0]
 	end
 
 	def play
 		intro
+		if interact == "open"
+			open_saved
+		end
+		display
 		while @turns < 16 && !@winner
 			puts "This is your #{@turns}. guess."
 			puts "You have an option to save your current progress. Just write save into the consol."
 			if interact == "save"
-#				save
+				save
+				return
 			else
 				guess
 			end
@@ -104,6 +130,7 @@ class Game
 			win
 			@turns += 1
 		end
+		puts @winner
 		farewell
 	end
 	
