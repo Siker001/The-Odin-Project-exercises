@@ -25,43 +25,34 @@ fib(7)
 fib(10)
 
 
+def fibs_rec(i, j, cnt, n)
+    if(cnt > n)
+       return i
+    else
+       k = i + j
+       print i, ", "
+       i = j
+       j = k
+       fibs_rec(i, j, cnt += 1, n)
+    end
 
-def fibs_rec(arg, *val)
-	answ = []
-	
-	if arg == 0
-		answ << 0
-		0
-	elsif arg == 1
-		answ << 1
-		1
-	else
-		val = fibs_rec(arg-1)
-		answ = val
-		print ','
-		val
-		
-	end
-	print answ
 end
 
-fibs_rec(0)
+fibs_rec(0, 1, 0, 0)
 puts ""
-fibs_rec(1)
+fibs_rec(0, 1, 0, 1)
 puts ""
-fibs_rec(2)
+fibs_rec(0, 1, 0, 2)
 puts ""
-fibs_rec(3)
+fibs_rec(0, 1, 0, 3)
 puts ""
-fibs_rec(4)
+fibs_rec(0, 1, 0, 4)
 puts ""
-=begin
-fibs_rec(5)
+fibs_rec(0, 1, 0, 5)
 puts ""
-print fibs_rec(6)
+fibs_rec(0, 1, 0, 6)
 puts ""
-print fibs_rec(7)
+fibs_rec(0, 1, 0, 7)
 puts ""
-print fibs_rec(10)
+fibs_rec(0, 1, 0, 10)
 puts ""
-=end
