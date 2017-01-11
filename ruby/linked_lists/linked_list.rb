@@ -3,11 +3,11 @@
 
 class Node
 
-	attr_accessor :value, :next_node
+	attr_accessor :value, :next
 
-	def initialize(value, next_node=nil)
+	def initialize(value)
 		@value = value
-		@next_node = next_node
+		@next = nil
 	end
 
 end
@@ -15,23 +15,43 @@ end
 
 class LinkedList < Node
 
+	attr_accessor :name
+
 	def initialize
-		@list = []
+		@head = nil
+		@tail = nil
+		@size = 0
 	end
 
-	def append(val, *node)
-		@list << Node.new(val, *node)
-#		@list[-1][@next_node] = self
+	def append(val)
+		node = Node.new(val)
+		if @head == nil
+			@head = node
+		elsif @tail == nil
+			@head.next = node
+			@tail = node
+		else
+			@tail.next = node
+			@tail = node
+		end
+		@size += 1
 	end
 	
 	def prepend(val)
-		@list.unshift(Node.new(val, @list[0]))
+		node = Node.new(val)
+		if @head == nil
+			@head = node
+		else
+			node.next = @head
+			@head = node
+		end
+		@size += 1
 	end
 
 	def size
-		@list.size
+		puts @size
 	end
-
+=begin
 	def head
 		@list[0]
 	end
@@ -74,19 +94,31 @@ class LinkedList < Node
 		end
 		print "nil"
 	end
-
+=end
 	def show
-		print @list
+		x = @head
+		until x == nil
+			print x.value
+			puts ""
+			x = x.next
+		end
 	end
+
 	
+
 end
 
 
 mylist = LinkedList.new
 mylist.append("Bob")
-mylist.prepend("Chris")
+mylist.append("Chris")
 mylist.prepend("Emma")
 mylist.append("Lili")
+mylist.append("Carmen")
+mylist.show
+mylist.size
+=begin
+
 mylist.show
 puts ""
 puts mylist.size
@@ -94,9 +126,10 @@ puts mylist.head
 puts mylist.tail
 puts mylist.at(2)
 puts mylist.pop
-puts mylist.size
+
 mylist.show
 puts ""
 puts mylist.contains?("Bo")
 puts mylist.find("Emma")
 mylist.to_s
+=end
