@@ -1,6 +1,4 @@
-
-
-
+# Creates a node when called by initializing value and pointing to next.
 class Node
 
 	attr_accessor :value, :next
@@ -12,7 +10,7 @@ class Node
 
 end
 
-
+# Creating a list with first and last element, also with size.
 class LinkedList < Node
 
 	attr_accessor :name
@@ -51,50 +49,87 @@ class LinkedList < Node
 	def size
 		puts @size
 	end
-=begin
+
 	def head
-		@list[0]
+		@head
 	end
 
 	def tail
-		@list[-1]
+		@tail
 	end
 
+# Iterating through the list by going head to tail, increasing y as index number.
+# When y equals with given index number, returns current node.
 	def at(index)
-		@list[index]
+		x = @head
+		y = 0
+		until x == nil
+			if y == index
+				return x
+			end
+			y += 1
+			x = x.next
+		end
 	end
 
 	def pop
-		@list.pop
+		if @size > 1
+			if @head.next == @tail
+				@head.next = nil
+			else
+				@tail = at(@size-2)
+				@tail.next = nil
+			end
+		end
+		@size -= 1
 	end
 
 	def contains?(value)
-		@list.each do |x|
+		x = @head
+		until x == nil
 			if x.value == value
 				return true
 			end
+			x = x.next
 		end
 		false
 	end
 
 	def find(data)
 		y = 0
-		@list.each do |x|
+		x = @head
+		until x == nil
 			if x.value == data
 				return y
 			end
 			y += 1
+			x = x.next
 		end
 		nil
 	end
 
 	def to_s
-		@list.each do |x|
-			print "( #{x} ) -> "
+		x = @head
+		until x == nil
+			print "( #{x.value} ) -> "
+			x = x.next
 		end
 		print "nil"
+		puts ""
 	end
-=end
+
+	def insert_at(index, data)
+		node = Node.new(data)
+		node.next = at(index)
+		at(index-1).next = node
+		@size += 1
+	end
+
+	def remove_at(index)
+		at(index-1).next = at(index+1)
+		@size -= 1
+	end
+
 	def show
 		x = @head
 		until x == nil
@@ -104,11 +139,10 @@ class LinkedList < Node
 		end
 	end
 
-	
-
 end
 
-
+# My checklist methods.
+=begin
 mylist = LinkedList.new
 mylist.append("Bob")
 mylist.append("Chris")
@@ -117,19 +151,16 @@ mylist.append("Lili")
 mylist.append("Carmen")
 mylist.show
 mylist.size
-=begin
-
-mylist.show
-puts ""
-puts mylist.size
-puts mylist.head
-puts mylist.tail
-puts mylist.at(2)
+puts mylist.head.value
+puts mylist.tail.value
+puts mylist.at(2).value
 puts mylist.pop
-
 mylist.show
-puts ""
-puts mylist.contains?("Bo")
-puts mylist.find("Emma")
+puts mylist.contains?("Lili")
+puts mylist.find("Carmen")
+mylist.to_s
+mylist.insert_at(2, "Bla")
+mylist.to_s
+mylist.remove_at(3)
 mylist.to_s
 =end
